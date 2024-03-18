@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: aaires-b <aaires-b@student.42.fr>          +#+  +:+       +#+         #
+#    By: aaires-b <aaires-b@@student.42.fr>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/20 16:26:53 by aaires-b          #+#    #+#              #
-#    Updated: 2023/10/24 10:35:58 by aaires-b         ###   ########.fr        #
+#    Updated: 2024/03/18 14:23:03 by aaires-b         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,32 +46,52 @@ OBJS 	= $(patsubst $(SRCSDIR)/%.c, $(OBJDIR)/%.o, $(SRCS))
 CC		= cc 
 CFLAGS	= -Wall -Werror -Wextra -g -fsanitize=address
 
+RESET=\033[0m
+BOLD=\033[1m
+RED=\033[31m
+GREEN=\033[32m
+YELLOW=\033[33m
+BLUE=\033[34m
+MAGENTA=\033[35m
+CYAN=\033[36m
+
 all : $(NAME)
 
+$(OBJDIR)/%.o: $(SRCSDIR)/%.c | $(OBJDIR)
+	@$(CC) $(CFLAGS) -c $< -o $@
+
 $(NAME): $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
+	@echo "$(GREEN)Compiling push_swap $(RESET)"
+	@$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
+	@echo "$(YELLOW)Done$(RESET)"
 
 $(CHECKER) : $(CHECKER_OBJS)
-	$(CC) $(CFLAGS) $(CHECKER_OBJS) -o $(CHECKER)
-	
-$(OBJDIR)/%.o: $(SRCSDIR)/%.c | $(OBJDIR)
-	$(CC) $(CFLAGS) -c $< -o $@
+	@echo "$(GREEN)Compiling checker $(RESET)"
+	@$(CC) $(CFLAGS) $(CHECKER_OBJS) -o $(CHECKER)
+	@echo "$(YELLOW)Done$(RESET)"
 
 $(OBJDIR):
-	mkdir -p $(OBJDIR)
+	@mkdir -p $(OBJDIR)
 
 clean:
-	rm -rf $(OBJDIR)
+	@echo "$(CYAN)Cleaning object files$(RESET)"
+	@rm -rf $(OBJDIR)
+	@echo "$(YELLOW)Done$(RESET)"
 
 clean_checker:
-	rm -rf $(CHECKER_OBJS)
+	@echo "$(CYAN)Cleaning checker object files$(RESET)"
+	@rm -rf $(CHECKER_OBJS)
+	@echo "$(YELLOW)Done$(RESET)"
 
 fclean : clean
-
-	rm -rf $(NAME)
+	@echo "$(CYAN)Cleaning push_swap executable$(RESET)"
+	@rm -rf $(NAME)
+	@echo "$(YELLOW)Done$(RESET)"
 
 fclean_checker: clean_checker
-	rm -rf $(CHECKER)
+	@echo "$(CYAN)Cleaning checker executable$(RESET)"
+	@rm -rf $(CHECKER)
+	@echo "$(YELLOW)Done$(RESET)"
 
 re: fclean all 
 
